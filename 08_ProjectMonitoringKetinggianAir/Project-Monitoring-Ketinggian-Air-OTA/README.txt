@@ -1,0 +1,1 @@
+Gunakan Versi ESP32 di Board Manager versi 2.0.5 atau versi < 3.0.0, issue di OTADrive Lib jika digabungkan dengan versi ESP32 board terbaru.

@@ -36,12 +36,11 @@ services:
       - "1883:1883"
       - "9001:9001"
     volumes:
-      - "mosquitto-data:/mosquitto"
+      - "./data:/mosquitto"
 
 volumes:
   influxdb-data:
   grafana-data:        
   node-red-data:
-  mosquitto-data:
 
 

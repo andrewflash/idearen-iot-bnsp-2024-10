@@ -37,12 +37,12 @@ const char *mqtt_username = "rw";        // Kosongkan jika tidak perlu
 const char *mqtt_password = "readwrite"; // Kosongkan jika tidak perlu
 
 // Topik terpisah untuk suhu dan kelembapan
-const char *topic_suhu = "sensor/dht11/idearen-02-10/suhu";
-const char *topic_kelembapan = "sensor/dht11/idearen-02-10/kelembapan";
-const char *topic_command = "command/idearen-02-10/buzzer";
+const char *topic_suhu = "sensor/dht11/idearen-02-10/andri/suhu";
+const char *topic_kelembapan = "sensor/dht11/idearen-02-10/andri/kelembapan";
+const char *topic_command = "command/idearen-02-10/andri/buzzer";
 
 // Interval waktu pengiriman dalam milidetik (15 detik)
-const unsigned long interval = 15000;
+const unsigned long interval = 5000;
 unsigned long previousMillis = 0; // Waktu terakhir data dikirim
 
 // Fungsi untuk menampilkan suhu dan kelembapan di OLED

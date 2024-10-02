@@ -24,7 +24,8 @@
         "wires": [
             [
                 "c9f255ab08d83188",
-                "1cb0acfd4ace1e06"
+                "1cb0acfd4ace1e06",
+                "44c47f7c9990b2a5"
             ]
         ]
     },
@@ -146,7 +147,9 @@
         "x": 650,
         "y": 360,
         "wires": [
-            []
+            [
+                "67a4ec15b13be006"
+            ]
         ]
     },
     {
@@ -192,7 +195,8 @@
         "y": 500,
         "wires": [
             [
-                "ae8ec2a3127783e8"
+                "ae8ec2a3127783e8",
+                "a689702c8efaa54b"
             ]
         ]
     },
@@ -391,6 +395,154 @@
                 "f51cc8e52f1784d1"
             ]
         ]
+    },
+    {
+        "id": "44c47f7c9990b2a5",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Set API Key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "msg",
+                "to": "9CV636NYIFBBMIRZ",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 140,
+        "wires": [
+            [
+                "20fb64ee49c53977"
+            ]
+        ]
+    },
+    {
+        "id": "20fb64ee49c53977",
+        "type": "http request",
+        "z": "df551bf2b2e31878",
+        "name": "Thingspeak",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key={{apikey}}&field1={{data}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 590,
+        "y": 140,
+        "wires": [
+            [
+                "a4f31ea45da6d426"
+            ]
+        ]
+    },
+    {
+        "id": "a4f31ea45da6d426",
+        "type": "debug",
+        "z": "df551bf2b2e31878",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a689702c8efaa54b",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Set API Key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "msg",
+                "to": "9CV636NYIFBBMIRZ",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 540,
+        "wires": [
+            [
+                "9b04ed6d308271e6"
+            ]
+        ]
+    },
+    {
+        "id": "9b04ed6d308271e6",
+        "type": "http request",
+        "z": "df551bf2b2e31878",
+        "name": "Thingspeak",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key={{apikey}}&field2={{data}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 590,
+        "y": 540,
+        "wires": [
+            [
+                "23bbd437f92d90d7"
+            ]
+        ]
+    },
+    {
+        "id": "23bbd437f92d90d7",
+        "type": "debug",
+        "z": "df551bf2b2e31878",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 540,
+        "wires": []
     },
     {
         "id": "4f1d7922e0ef72f2",

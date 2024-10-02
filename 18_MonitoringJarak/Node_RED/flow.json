@@ -24,7 +24,8 @@
         "wires": [
             [
                 "61c5f1dcb7d7e59f",
-                "4a9f3ac449c98245"
+                "4a9f3ac449c98245",
+                "0f1e35a2a58127a5"
             ]
         ]
     },
@@ -52,8 +53,8 @@
         "seg2": "",
         "diff": false,
         "className": "",
-        "x": 410,
-        "y": 260,
+        "x": 390,
+        "y": 220,
         "wires": []
     },
     {
@@ -127,8 +128,8 @@
         "payloadType": "str",
         "topic": "command/idearen-02-10/buzzer",
         "topicType": "str",
-        "x": 410,
-        "y": 500,
+        "x": 630,
+        "y": 480,
         "wires": [
             [
                 "a45cbd82d07cd98b"
@@ -155,7 +156,7 @@
         "payloadType": "str",
         "topic": "command/idearen-02-10/buzzer",
         "topicType": "str",
-        "x": 410,
+        "x": 630,
         "y": 540,
         "wires": [
             [
@@ -350,6 +351,100 @@
                 "c5bcdb8f5e4f8f6f"
             ]
         ]
+    },
+    {
+        "id": "c4de4680aa886d38",
+        "type": "http request",
+        "z": "1d9be527af770c36",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": false,
+        "url": "",
+        "persist": false,
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 630,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0f1e35a2a58127a5",
+        "type": "change",
+        "z": "1d9be527af770c36",
+        "name": "Set API Key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "msg",
+                "to": "YZ1FHCI3Q3IAZYKY",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 280,
+        "wires": [
+            [
+                "01adb7baae749d48"
+            ]
+        ]
+    },
+    {
+        "id": "01adb7baae749d48",
+        "type": "http request",
+        "z": "1d9be527af770c36",
+        "name": "Thingspeak",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key={{apikey}}&field1={{data}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 610,
+        "y": 280,
+        "wires": [
+            [
+                "581c276c2aeae235"
+            ]
+        ]
+    },
+    {
+        "id": "581c276c2aeae235",
+        "type": "debug",
+        "z": "1d9be527af770c36",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 280,
+        "wires": []
     },
     {
         "id": "b15f5776.8d705",

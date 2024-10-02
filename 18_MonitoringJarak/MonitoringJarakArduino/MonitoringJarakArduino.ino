@@ -154,6 +154,8 @@ void reconnect()
 void setup()
 {
     Serial.begin(115200);
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
     pinMode(BUZZER_PIN, OUTPUT);
     digitalWrite(BUZZER_PIN, LOW); // Matikan buzzer di awal
 
@@ -234,13 +236,16 @@ void loop()
     // Waktu saat ini
     unsigned long currentMillis = millis();
 
+    // Baca data dari sensor HC-SR04
+    float jarak = readDistance();
+
+    // Tampilkan data di OLED
+    displayData(jarak);
+
     // Jika sudah 15 detik
     if (currentMillis - previousMillis >= interval)
     {
         previousMillis = currentMillis;
-
-        // Baca data dari sensor HC-SR04
-        float jarak = readDistance();
 
         // Cek apakah data valid
         if (isnan(jarak))
@@ -252,8 +257,5 @@ void loop()
         // Kirim data jarak ke topik MQTT
         String payload_jarak = String(jarak);
         client.publish(topic_jarak, payload_jarak.c_str());
-
-        // Tampilkan data di OLED
-        displayData(suhu, kelembapan);
     }
 }

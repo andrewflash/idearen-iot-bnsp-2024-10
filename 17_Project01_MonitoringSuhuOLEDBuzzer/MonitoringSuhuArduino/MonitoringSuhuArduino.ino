@@ -225,27 +225,30 @@ void loop()
     // Waktu saat ini
     unsigned long currentMillis = millis();
 
+#ifdef DUMMY
+    // Data dummy untuk simulasi
+    float suhu = random(20, 30);
+    float kelembapan = random(50, 70);
+#else
+    // Baca data dari sensor DHT11
+    float suhu = dht.readTemperature();
+    float kelembapan = dht.readHumidity();
+
+    // Cek apakah data valid
+    if (isnan(suhu) || isnan(kelembapan))
+    {
+        Serial.println("Gagal membaca dari sensor DHT11!");
+        return;
+    }
+#endif
+
+    // Tampilkan data di OLED
+    displayData(suhu, kelembapan);
+
     // Jika sudah 15 detik
     if (currentMillis - previousMillis >= interval)
     {
         previousMillis = currentMillis;
-
-#ifdef DUMMY
-        // Data dummy untuk simulasi
-        float suhu = random(20, 30);
-        float kelembapan = random(50, 70);
-#else
-        // Baca data dari sensor DHT11
-        float suhu = dht.readTemperature();
-        float kelembapan = dht.readHumidity();
-
-        // Cek apakah data valid
-        if (isnan(suhu) || isnan(kelembapan))
-        {
-            Serial.println("Gagal membaca dari sensor DHT11!");
-            return;
-        }
-#endif
 
         // Kirim data suhu ke topik MQTT
         String payload_suhu = String(suhu);
@@ -254,8 +257,5 @@ void loop()
         // Kirim data kelembapan ke topik MQTT
         String payload_kelembapan = String(kelembapan);
         client.publish(topic_kelembapan, payload_kelembapan.c_str());
-
-        // Tampilkan data di OLED
-        displayData(suhu, kelembapan);
     }
 }

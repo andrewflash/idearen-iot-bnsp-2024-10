@@ -1,0 +1,606 @@
+[
+    {
+        "id": "df551bf2b2e31878",
+        "type": "tab",
+        "label": "Flow Monitoring Suhu dan Kelembapan",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5d4b62b4414cdf9d",
+        "type": "mqtt in",
+        "z": "df551bf2b2e31878",
+        "name": "Suhu Sensor MQTT",
+        "topic": "sensor/dht11/idearen-02-10/suhu",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "4f1d7922e0ef72f2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 100,
+        "wires": [
+            [
+                "c9f255ab08d83188",
+                "1cb0acfd4ace1e06",
+                "26f5349f68738abe"
+            ]
+        ]
+    },
+    {
+        "id": "c9f255ab08d83188",
+        "type": "ui_gauge",
+        "z": "df551bf2b2e31878",
+        "name": "Gauge Suhu",
+        "group": "b4011d5b3c58c64f",
+        "order": 1,
+        "width": "6",
+        "height": "3",
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "Celsius",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 390,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5f7be13777bb6515",
+        "type": "ui_slider",
+        "z": "df551bf2b2e31878",
+        "name": "Slider Threshold",
+        "label": "Threshold Suhu",
+        "tooltip": "",
+        "group": "b4011d5b3c58c64f",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "outs": "end",
+        "topic": "threshold",
+        "topicType": "str",
+        "min": "0",
+        "max": "50",
+        "step": "1",
+        "className": "",
+        "x": 120,
+        "y": 560,
+        "wires": [
+            [
+                "c9eb6b67a89f1625"
+            ]
+        ]
+    },
+    {
+        "id": "c9eb6b67a89f1625",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Save Threshold",
+        "rules": [
+            {
+                "t": "set",
+                "p": "threshold",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "67a4ec15b13be006",
+        "type": "mqtt out",
+        "z": "df551bf2b2e31878",
+        "name": "Control Relay",
+        "topic": "command/idearen-02-10/buzzer",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4f1d7922e0ef72f2",
+        "x": 1060,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "c9125294bef65b2c",
+        "type": "ui_button",
+        "z": "df551bf2b2e31878",
+        "name": "Manual Relay On",
+        "group": "b4011d5b3c58c64f",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay On",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "ON",
+        "payloadType": "str",
+        "topic": "",
+        "x": 830,
+        "y": 420,
+        "wires": [
+            [
+                "67a4ec15b13be006"
+            ]
+        ]
+    },
+    {
+        "id": "a74e6875aad3050f",
+        "type": "ui_button",
+        "z": "df551bf2b2e31878",
+        "name": "Manual Relay Off",
+        "group": "b4011d5b3c58c64f",
+        "order": 5,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay Off",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "OFF",
+        "payloadType": "str",
+        "topic": "",
+        "x": 830,
+        "y": 460,
+        "wires": [
+            [
+                "67a4ec15b13be006"
+            ]
+        ]
+    },
+    {
+        "id": "77ea3645df3e82b1",
+        "type": "mqtt in",
+        "z": "df551bf2b2e31878",
+        "name": "Kelembapan Sensor MQTT",
+        "topic": "sensor/dht11/idearen-02-10/kelembapan",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "4f1d7922e0ef72f2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 460,
+        "wires": [
+            [
+                "ae8ec2a3127783e8",
+                "eac0ac8d932be347"
+            ]
+        ]
+    },
+    {
+        "id": "ae8ec2a3127783e8",
+        "type": "ui_gauge",
+        "z": "df551bf2b2e31878",
+        "name": "Gauge Kelembapan",
+        "group": "606341c501a7af6a",
+        "order": 1,
+        "width": "6",
+        "height": "3",
+        "gtype": "gage",
+        "title": "Kelembapan",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 420,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "f51cc8e52f1784d1",
+        "type": "switch",
+        "z": "df551bf2b2e31878",
+        "name": "Relay Logic",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "threshold",
+                "vt": "flow"
+            },
+            {
+                "t": "lte",
+                "v": "threshold",
+                "vt": "flow"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 430,
+        "y": 240,
+        "wires": [
+            [
+                "e58b2b98838a9eaa"
+            ],
+            [
+                "ae28e933e1aaa533"
+            ]
+        ]
+    },
+    {
+        "id": "e58b2b98838a9eaa",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Msg Relay ON",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "ON",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 220,
+        "wires": [
+            [
+                "67a4ec15b13be006"
+            ]
+        ]
+    },
+    {
+        "id": "ae28e933e1aaa533",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Msg Relay OFF",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "OFF",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 260,
+        "wires": [
+            [
+                "67a4ec15b13be006"
+            ]
+        ]
+    },
+    {
+        "id": "f75f5ae2f054afec",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Set AutoMode",
+        "rules": [
+            {
+                "t": "set",
+                "p": "automode",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "81cbda9336b16b66",
+        "type": "ui_switch",
+        "z": "df551bf2b2e31878",
+        "name": "",
+        "label": "Enable Auto Mode",
+        "tooltip": "",
+        "group": "b4011d5b3c58c64f",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 130,
+        "y": 600,
+        "wires": [
+            [
+                "f75f5ae2f054afec"
+            ]
+        ]
+    },
+    {
+        "id": "1cb0acfd4ace1e06",
+        "type": "switch",
+        "z": "df551bf2b2e31878",
+        "name": "Check AutoMode",
+        "property": "automode",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [
+                "f51cc8e52f1784d1"
+            ]
+        ]
+    },
+    {
+        "id": "44c47f7c9990b2a5",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Set API Key",
+        "rules": [
+            {
+                "t": "set",
+                "p": "apikey",
+                "pt": "msg",
+                "to": "9CV636NYIFBBMIRZ",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 320,
+        "wires": [
+            [
+                "20fb64ee49c53977"
+            ]
+        ]
+    },
+    {
+        "id": "20fb64ee49c53977",
+        "type": "http request",
+        "z": "df551bf2b2e31878",
+        "name": "Thingspeak",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key={{apikey}}&field1={{payload.suhu}}&field2={{payload.kelembapan}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 630,
+        "y": 320,
+        "wires": [
+            [
+                "a4f31ea45da6d426"
+            ]
+        ]
+    },
+    {
+        "id": "a4f31ea45da6d426",
+        "type": "debug",
+        "z": "df551bf2b2e31878",
+        "name": "Debug Thingspeak",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 770,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "530ed5abc0e244ce",
+        "type": "join",
+        "z": "df551bf2b2e31878",
+        "name": "Join Data",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": false,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 260,
+        "y": 320,
+        "wires": [
+            [
+                "44c47f7c9990b2a5"
+            ]
+        ]
+    },
+    {
+        "id": "26f5349f68738abe",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Set Topic Suhu",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "suhu",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 160,
+        "y": 220,
+        "wires": [
+            [
+                "530ed5abc0e244ce"
+            ]
+        ]
+    },
+    {
+        "id": "eac0ac8d932be347",
+        "type": "change",
+        "z": "df551bf2b2e31878",
+        "name": "Set Topic Kelembapan",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "kelembapan",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 400,
+        "wires": [
+            [
+                "530ed5abc0e244ce"
+            ]
+        ]
+    },
+    {
+        "id": "4f1d7922e0ef72f2",
+        "type": "mqtt-broker",
+        "name": "MQTT Broker",
+        "broker": "test.mosquitto.org",
+        "port": "1884",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "b4011d5b3c58c64f",
+        "type": "ui_group",
+        "name": "Monitor Suhu",
+        "tab": "703e8b60b567b92d",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "606341c501a7af6a",
+        "type": "ui_group",
+        "name": "Monitor Kelembapan",
+        "tab": "703e8b60b567b92d",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "703e8b60b567b92d",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

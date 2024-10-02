@@ -157,9 +157,6 @@ void setup()
     pinMode(BUZZER_PIN, OUTPUT);
     digitalWrite(BUZZER_PIN, LOW); // Matikan buzzer di awal
 
-    // Setup DHT11
-    dht.begin();
-
     // Setup OLED
     if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C))
     {

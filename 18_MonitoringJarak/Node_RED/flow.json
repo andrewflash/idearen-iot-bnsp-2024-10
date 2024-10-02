@@ -1,0 +1,251 @@
+[
+    {
+        "id": "c5e194cb9b3f9fd6",
+        "type": "tab",
+        "label": "Flow Monitoring Suhu",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "31e71fd5e640118e",
+        "type": "mqtt in",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Suhu Sensor MQTT",
+        "topic": "sensor/dht11/idearen-02-10/suhu",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "4f1d7922e0ef72f2",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "230c5b2be6b77a9e"
+            ]
+        ]
+    },
+    {
+        "id": "230c5b2be6b77a9e",
+        "type": "ui_gauge",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Gauge Suhu",
+        "group": "b4011d5b3c58c64f",
+        "order": 1,
+        "width": "6",
+        "height": "3",
+        "gtype": "gage",
+        "title": "Suhu",
+        "label": "Celsius",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 330,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5cb49d284e734191",
+        "type": "ui_slider",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Slider Threshold",
+        "label": "Threshold Suhu",
+        "tooltip": "",
+        "group": "b4011d5b3c58c64f",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "outs": "end",
+        "topic": "threshold",
+        "min": "0",
+        "max": "50",
+        "step": "1",
+        "x": 330,
+        "y": 160,
+        "wires": [
+            [
+                "7f08c0e6f8460102"
+            ]
+        ]
+    },
+    {
+        "id": "7f08c0e6f8460102",
+        "type": "change",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Save Threshold",
+        "rules": [
+            {
+                "t": "set",
+                "p": "threshold",
+                "pt": "global",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "d77f394e9b9f4fc9",
+        "type": "function",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Relay Control Logic",
+        "func": "let suhu = parseFloat(msg.payload);\nlet threshold = global.get(\"threshold\") || 0;\nif (suhu > threshold) {\n    return [{ payload: \"ON\" }, { payload: \"Relay On: Suhu diatas threshold\" }];\n} else {\n    return [{ payload: \"OFF\" }, { payload: \"Relay Off: Suhu dibawah threshold\" }];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 240,
+        "wires": [
+            [
+                "1af17e4f5d64ae6a"
+            ],
+            [
+                "1c59b7ac0d0f9c38"
+            ]
+        ]
+    },
+    {
+        "id": "1af17e4f5d64ae6a",
+        "type": "mqtt out",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Control Relay",
+        "topic": "command/idearen-02-10/buzzer",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "4f1d7922e0ef72f2",
+        "x": 530,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "1c59b7ac0d0f9c38",
+        "type": "ui_text",
+        "z": "c5e194cb9b3f9fd6",
+        "group": "b4011d5b3c58c64f",
+        "order": 3,
+        "width": "6",
+        "height": "1",
+        "name": "Status Relay",
+        "label": "Status Relay",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 530,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "51a8fba5fdb35fb0",
+        "type": "ui_button",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Manual Relay On",
+        "group": "b4011d5b3c58c64f",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay On",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "ON",
+        "payloadType": "str",
+        "topic": "",
+        "x": 330,
+        "y": 360,
+        "wires": [
+            [
+                "1af17e4f5d64ae6a"
+            ]
+        ]
+    },
+    {
+        "id": "69b5c504e456a121",
+        "type": "ui_button",
+        "z": "c5e194cb9b3f9fd6",
+        "name": "Manual Relay Off",
+        "group": "b4011d5b3c58c64f",
+        "order": 5,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay Off",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "OFF",
+        "payloadType": "str",
+        "topic": "",
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "1af17e4f5d64ae6a"
+            ]
+        ]
+    },
+    {
+        "id": "4f1d7922e0ef72f2",
+        "type": "mqtt-broker",
+        "name": "MQTT Broker",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "b4011d5b3c58c64f",
+        "type": "ui_group",
+        "name": "Monitor Suhu",
+        "tab": "703e8b60b567b92d",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "703e8b60b567b92d",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]

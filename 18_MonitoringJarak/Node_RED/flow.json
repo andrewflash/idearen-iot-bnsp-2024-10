@@ -1,27 +1,28 @@
 [
     {
-        "id": "e9e4bf341e8a3e53",
+        "id": "f1b7b89f4c7f4b1b",
         "type": "mqtt in",
-        "z": "1b8ca5fb.24d74a",
+        "z": "f2a4c7f43a0747a0",
         "name": "Sensor Jarak MQTT Input",
-        "topic": "sensor/ultrasonic/idearen-02-10/jarak",
+        "topic": "sensor/hcsr04/idearen-02-10/jarak",
         "qos": "0",
         "datatype": "auto",
-        "broker": "4f1d7922e0ef72f2",
+        "broker": "b15f5776.8d705",
         "x": 150,
         "y": 600,
         "wires": [
             [
-                "d37ef1786d9b1d5a"
+                "61c5f1dcb7d7e59f",
+                "c5bcdb8f5e4f8f6f"
             ]
         ]
     },
     {
-        "id": "d37ef1786d9b1d5a",
+        "id": "61c5f1dcb7d7e59f",
         "type": "ui_gauge",
-        "z": "1b8ca5fb.24d74a",
+        "z": "f2a4c7f43a0747a0",
         "name": "Gauge Jarak",
-        "group": "bcd6c5d4ef57f135",
+        "group": "e748d158a3f3a43a",
         "order": 1,
         "width": "6",
         "height": "6",
@@ -38,26 +39,181 @@
         ],
         "seg1": "",
         "seg2": "",
-        "className": "",
         "x": 370,
         "y": 600,
         "wires": []
     },
     {
-        "id": "bcd6c5d4ef57f135",
+        "id": "c5bcdb8f5e4f8f6f",
+        "type": "switch",
+        "z": "f2a4c7f43a0747a0",
+        "name": "Check Threshold",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "threshold",
+                "vt": "flow"
+            },
+            {
+                "t": "lte",
+                "v": "threshold",
+                "vt": "flow"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 610,
+        "y": 600,
+        "wires": [
+            [
+                "a45cbd82d07cd98b"
+            ],
+            [
+                "a8b5c72415c4edbd"
+            ]
+        ]
+    },
+    {
+        "id": "a45cbd82d07cd98b",
+        "type": "mqtt out",
+        "z": "f2a4c7f43a0747a0",
+        "name": "Relay ON",
+        "topic": "relay/command",
+        "qos": "0",
+        "retain": "false",
+        "broker": "b15f5776.8d705",
+        "x": 830,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "a8b5c72415c4edbd",
+        "type": "mqtt out",
+        "z": "f2a4c7f43a0747a0",
+        "name": "Relay OFF",
+        "topic": "relay/command",
+        "qos": "0",
+        "retain": "false",
+        "broker": "b15f5776.8d705",
+        "x": 830,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "405cb0674a9631b5",
+        "type": "ui_button",
+        "z": "f2a4c7f43a0747a0",
+        "name": "Relay ON Manual",
+        "group": "e748d158a3f3a43a",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay ON",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "ON",
+        "payloadType": "str",
+        "topic": "relay/command",
+        "x": 370,
+        "y": 680,
+        "wires": [
+            [
+                "a45cbd82d07cd98b"
+            ]
+        ]
+    },
+    {
+        "id": "8b01e024d4a2ef23",
+        "type": "ui_button",
+        "z": "f2a4c7f43a0747a0",
+        "name": "Relay OFF Manual",
+        "group": "e748d158a3f3a43a",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay OFF",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "OFF",
+        "payloadType": "str",
+        "topic": "relay/command",
+        "x": 370,
+        "y": 720,
+        "wires": [
+            [
+                "a8b5c72415c4edbd"
+            ]
+        ]
+    },
+    {
+        "id": "c236f066fb8f7b60",
+        "type": "ui_text_input",
+        "z": "f2a4c7f43a0747a0",
+        "name": "Input Threshold",
+        "label": "Threshold Jarak",
+        "group": "e748d158a3f3a43a",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": "0",
+        "topic": "",
+        "x": 370,
+        "y": 640,
+        "wires": [
+            [
+                "d7a1a38a33c47a36"
+            ]
+        ]
+    },
+    {
+        "id": "d7a1a38a33c47a36",
+        "type": "change",
+        "z": "f2a4c7f43a0747a0",
+        "name": "Set Threshold",
+        "rules": [
+            {
+                "t": "set",
+                "p": "threshold",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 600,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "e748d158a3f3a43a",
         "type": "ui_group",
         "name": "Monitor Jarak",
-        "tab": "703e8b60b567b92d",
+        "tab": "f9ae59c8d14a22ed",
         "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false
     },
     {
-        "id": "4f1d7922e0ef72f2",
+        "id": "b15f5776.8d705",
         "type": "mqtt-broker",
         "name": "",
-        "broker": "localhost",
+        "broker": "test.mosquitto.org",
         "port": "1883",
         "clientid": "",
         "usetls": false,
@@ -75,7 +231,7 @@
         "willPayload": ""
     },
     {
-        "id": "703e8b60b567b92d",
+        "id": "f9ae59c8d14a22ed",
         "type": "ui_tab",
         "name": "Dashboard",
         "icon": "dashboard",

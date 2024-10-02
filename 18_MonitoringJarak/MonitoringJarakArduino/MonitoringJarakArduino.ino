@@ -36,8 +36,8 @@ const char *mqtt_password = ""; // Kosongkan jika tidak perlu
 const char *topic_jarak = "sensor/hcsr04/idearen-02-10/jarak";
 const char *topic_command = "command/idearen-02-10/buzzer";
 
-// Interval waktu pengiriman dalam milidetik (15 detik)
-const unsigned long interval = 15000;
+// Interval waktu pengiriman dalam milidetik (5 detik)
+const unsigned long interval = 5000;
 unsigned long previousMillis = 0; // Waktu terakhir data dikirim
 
 // Fungsi untuk menghitung jarak dari HC-SR04

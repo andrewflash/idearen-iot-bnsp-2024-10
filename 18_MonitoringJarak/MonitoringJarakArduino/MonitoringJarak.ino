@@ -4,21 +4,17 @@
 #include <WiFi.h>
 #endif
 
-#define DUMMY
-
 #include <PubSubClient.h>
 #include <Adafruit_SSD1306.h>
-#include <DHT.h>
 #include <ArduinoOTA.h>
 
-// Konfigurasi pin
-#define DHTPIN 2      // Pin DHT11 (untuk ESP8266 gunakan GPIO2 / D4, untuk ESP32 gunakan GPIO2)
-#define DHTTYPE DHT11 // Jenis sensor DHT11
+// Konfigurasi pin untuk HC-SR04
+#define TRIG_PIN 12   // Pin trigger HC-SR04
+#define ECHO_PIN 13   // Pin echo HC-SR04
 #define OLED_RESET -1 // Pin reset OLED (-1 jika tidak menggunakan reset pada OLED)
 #define BUZZER_PIN 14 // Pin Buzzer (GPIO14 / D5 di ESP8266 dan ESP32)
 
 // Inisialisasi objek
-DHT dht(DHTPIN, DHTTYPE);
 Adafruit_SSD1306 display(128, 64, &Wire, OLED_RESET);
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -37,27 +33,43 @@ const char *mqtt_username = ""; // Kosongkan jika tidak perlu
 const char *mqtt_password = ""; // Kosongkan jika tidak perlu
 
 // Topik terpisah untuk suhu dan kelembapan
-const char *topic_suhu = "sensor/dht11/idearen-02-10/suhu";
-const char *topic_kelembapan = "sensor/dht11/idearen-02-10/kelembapan";
+const char *topic_jarak = "sensor/hcsr04/idearen-02-10/jarak";
 const char *topic_command = "command/idearen-02-10/buzzer";
 
 // Interval waktu pengiriman dalam milidetik (15 detik)
 const unsigned long interval = 15000;
 unsigned long previousMillis = 0; // Waktu terakhir data dikirim
 
-// Fungsi untuk menampilkan suhu dan kelembapan di OLED
-void displayData(float suhu, float kelembapan)
+// Fungsi untuk menghitung jarak dari HC-SR04
+float readDistance()
+{
+    // Bersihkan pin trigger
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2);
+
+    // Kirim sinyal trigger
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+
+    // Hitung durasi dari echo
+    long duration = pulseIn(ECHO_PIN, HIGH);
+
+    // Hitung jarak dalam cm
+    float distance = duration * 0.034 / 2;
+    return distance;
+}
+
+// Fungsi untuk menampilkan jarak di OLED
+void displayData(float jarak)
 {
     display.clearDisplay();
     display.setTextSize(1);
     display.setTextColor(WHITE);
     display.setCursor(0, 0);
-    display.print("Suhu: ");
-    display.print(suhu);
-    display.println(" C");
-    display.print("Kelembapan: ");
-    display.print(kelembapan);
-    display.println(" %");
+    display.print("Jarak: ");
+    display.print(jarak);
+    display.println(" cm");
     display.display();
 }
 
@@ -107,9 +119,9 @@ void reconnect()
 {
     while (!client.connected())
     {
-        Serial.print("Menghubungkan ke MQTT...");
         String clientId = "ESP32Client-" + String(random(0xffff), HEX);
 
+        Serial.print("Menghubungkan ke MQTT...");
         if (mqtt_username && mqtt_password && strlen(mqtt_username) > 0 && strlen(mqtt_password) > 0)
         {
             // Gunakan autentikasi username dan password
@@ -230,31 +242,19 @@ void loop()
     {
         previousMillis = currentMillis;
 
-#ifdef DUMMY
-        // Data dummy untuk simulasi
-        float suhu = random(20, 30);
-        float kelembapan = random(50, 70);
-#else
-        // Baca data dari sensor DHT11
-        float suhu = dht.readTemperature();
-        float kelembapan = dht.readHumidity();
+        // Baca data dari sensor HC-SR04
+        float jarak = readDistance();
 
         // Cek apakah data valid
-        if (isnan(suhu) || isnan(kelembapan))
+        if (isnan(jarak))
         {
-            Serial.println("Gagal membaca dari sensor DHT11!");
+            Serial.println("Gagal membaca dari sensor HC-SR04!");
             return;
         }
-#endif
 
-        // Kirim data suhu ke topik MQTT
-        String payload_suhu = String(suhu);
-        client.publish(topic_suhu, payload_suhu.c_str());
-
-        // Kirim data kelembapan ke topik MQTT
-        String payload_kelembapan = String(kelembapan);
-        client.publish(topic_kelembapan, payload_kelembapan.c_str());
-
+        // Kirim data jarak ke topik MQTT
+        String payload_jarak = String(jarak);
+        client.publish(topic_jarak, payload_jarak.c_str());
         // Tampilkan data di OLED
         displayData(suhu, kelembapan);
     }

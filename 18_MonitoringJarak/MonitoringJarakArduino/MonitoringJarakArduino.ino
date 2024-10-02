@@ -252,6 +252,7 @@ void loop()
         // Kirim data jarak ke topik MQTT
         String payload_jarak = String(jarak);
         client.publish(topic_jarak, payload_jarak.c_str());
+
         // Tampilkan data di OLED
         displayData(suhu, kelembapan);
     }

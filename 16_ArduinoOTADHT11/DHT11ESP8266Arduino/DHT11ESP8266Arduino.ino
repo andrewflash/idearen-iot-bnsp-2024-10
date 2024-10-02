@@ -169,7 +169,7 @@ void loop()
 
     // Read temperature and humidity from DHT11 sensor
     // float temperature = dht.readTemperature();
-    float temperature = 38.1;
+    float temperature = 48.1;
     Serial.print("Temperature : ");
     Serial.println(temperature);
     // float humidity = dht.readHumidity();

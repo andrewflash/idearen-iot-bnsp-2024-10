@@ -189,6 +189,9 @@ void setup()
     client.setCallback(callback);
 
     // Setup OTA
+    // Hostname defaults to esp8266-[ChipID]
+    // ArduinoOTA.setHostname("myesp8266");
+
     ArduinoOTA.setPassword("admin"); // Menambahkan password untuk OTA
 
     ArduinoOTA.onStart([]()

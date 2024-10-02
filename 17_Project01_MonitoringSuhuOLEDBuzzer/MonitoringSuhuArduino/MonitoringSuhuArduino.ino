@@ -30,11 +30,11 @@ const char *mqtt_server = "test.mosquitto.org";
 
 // Pilih salah satu dari konfigurasi ini berdasarkan apakah broker membutuhkan autentikasi
 const int mqtt_port_anonymous = 1883;     // Port tanpa autentikasi
-const int mqtt_port_authenticated = 8883; // Port dengan autentikasi
+const int mqtt_port_authenticated = 1884; // Port dengan autentikasi
 
 // Jika menggunakan autentikasi MQTT (username dan password)
-const char *mqtt_username = ""; // Kosongkan jika tidak perlu
-const char *mqtt_password = ""; // Kosongkan jika tidak perlu
+const char *mqtt_username = "rw"; // Kosongkan jika tidak perlu
+const char *mqtt_password = "readwrite"; // Kosongkan jika tidak perlu
 
 // Topik terpisah untuk suhu dan kelembapan
 const char *topic_suhu = "sensor/dht11/idearen-02-10/suhu";

@@ -1,5 +1,62 @@
 [
     {
+        "id": "1d9be527af770c36",
+        "type": "tab",
+        "label": "Monitoring Jarak",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "f1b7b89f4c7f4b1b",
+        "type": "mqtt in",
+        "z": "1d9be527af770c36",
+        "name": "Sensor Jarak MQTT Input",
+        "topic": "sensor/hcsr04/idearen-02-10/jarak",
+        "qos": "0",
+        "datatype": "auto",
+        "broker": "b15f5776.8d705",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 190,
+        "y": 340,
+        "wires": [
+            [
+                "61c5f1dcb7d7e59f",
+                "c5bcdb8f5e4f8f6f"
+            ]
+        ]
+    },
+    {
+        "id": "61c5f1dcb7d7e59f",
+        "type": "ui_gauge",
+        "z": "1d9be527af770c36",
+        "name": "Gauge Jarak",
+        "group": "e748d158a3f3a43a",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "gtype": "gage",
+        "title": "Jarak (cm)",
+        "label": "cm",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 410,
+        "y": 340,
+        "wires": []
+    },
+    {
         "id": "c5bcdb8f5e4f8f6f",
         "type": "switch",
         "z": "1d9be527af770c36",
@@ -31,5 +88,218 @@
                 "a8b5c72415c4edbd"
             ]
         ]
+    },
+    {
+        "id": "a45cbd82d07cd98b",
+        "type": "mqtt out",
+        "z": "1d9be527af770c36",
+        "name": "Relay ON",
+        "topic": "relay/command",
+        "qos": "0",
+        "retain": "false",
+        "broker": "b15f5776.8d705",
+        "x": 880,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "a8b5c72415c4edbd",
+        "type": "mqtt out",
+        "z": "1d9be527af770c36",
+        "name": "Relay OFF",
+        "topic": "relay/command",
+        "qos": "0",
+        "retain": "false",
+        "broker": "b15f5776.8d705",
+        "x": 870,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "405cb0674a9631b5",
+        "type": "ui_button",
+        "z": "1d9be527af770c36",
+        "name": "Relay ON Manual",
+        "group": "e748d158a3f3a43a",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay ON",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "ON",
+        "payloadType": "str",
+        "topic": "relay/command",
+        "topicType": "str",
+        "x": 410,
+        "y": 500,
+        "wires": [
+            [
+                "a45cbd82d07cd98b"
+            ]
+        ]
+    },
+    {
+        "id": "8b01e024d4a2ef23",
+        "type": "ui_button",
+        "z": "1d9be527af770c36",
+        "name": "Relay OFF Manual",
+        "group": "e748d158a3f3a43a",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Relay OFF",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "OFF",
+        "payloadType": "str",
+        "topic": "relay/command",
+        "x": 410,
+        "y": 540,
+        "wires": [
+            [
+                "a8b5c72415c4edbd"
+            ]
+        ]
+    },
+    {
+        "id": "d7a1a38a33c47a36",
+        "type": "change",
+        "z": "1d9be527af770c36",
+        "name": "Set Threshold",
+        "rules": [
+            {
+                "t": "set",
+                "p": "threshold",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b89db01f4345786",
+        "type": "ui_slider",
+        "z": "1d9be527af770c36",
+        "name": "Slider Threshold",
+        "label": "Threshold Jarak",
+        "tooltip": "",
+        "group": "e748d158a3f3a43a",
+        "order": 2,
+        "width": "6",
+        "height": "1",
+        "passthru": true,
+        "outs": "end",
+        "topic": "threshold",
+        "topicType": "str",
+        "min": "0",
+        "max": "50",
+        "step": "1",
+        "className": "",
+        "x": 400,
+        "y": 400,
+        "wires": [
+            [
+                "d7a1a38a33c47a36"
+            ]
+        ]
+    },
+    {
+        "id": "446fa5e45eda1678",
+        "type": "ui_text",
+        "z": "1d9be527af770c36",
+        "group": "b4011d5b3c58c64f",
+        "order": 3,
+        "width": "6",
+        "height": "1",
+        "name": "Status Relay",
+        "label": "Status Relay",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 890,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b15f5776.8d705",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e748d158a3f3a43a",
+        "type": "ui_group",
+        "name": "Monitor Jarak",
+        "tab": "f9ae59c8d14a22ed",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "b4011d5b3c58c64f",
+        "type": "ui_group",
+        "name": "Monitor Suhu",
+        "tab": "703e8b60b567b92d",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "f9ae59c8d14a22ed",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "703e8b60b567b92d",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
     }
 ]
